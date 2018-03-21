@@ -24,13 +24,47 @@ mongoose.connection.on('disconnceted', function () {
 router.get('/', function(req, res, next) {
   res.json({msg: 'this is /'});
 });
+// 
 router.get('/info', function(req, res, next) {
   res.json({code: 0});
 });
+// 注册页面
 router.post('/regiseter', function(req, res, next) {
-  res.json({code: 0});
+  console.log(`参数是${req.body}`)
+  const {user, pwd, type} = req.body;
+  console.log({user, pwd, type})
+  User.findOne({user:user}, function(err,doc){
+    if(doc){
+      return res.json({
+        code: 1,
+        msg: '该用户已经被注册'
+      })
+    }else if(err){
+        return res.json({
+    code: 0,
+    code2: {user, pwd, type}
+  })
+    }
+    User.create({user, pwd, type},function(e,d){
+      if (e){
+        return res.json({
+          code: 1.1,
+          msg: '数据库抽风,请联系管理员'
+        })
+      }
+      return res.json({
+        code: 0,
+        msg: '注册成功'
+      })
+    })
+  })
+  
+  // return res.json({
+  //   code: 0,
+  //   code2: {user, pwd, type}
+  // })
 });
-
+// 这里是测试需要;
 router.get('/list', function(req, res, next) {
   User.find({},function(err,doc){
     res.json({
