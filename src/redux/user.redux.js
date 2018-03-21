@@ -44,10 +44,11 @@ export function regisger({user,pwd,repeatpwd,type}){
   }
   // 移步操作 返回一个 函数 callback
   return dispatch=>{
-    axios.post('/usr/regiseter',{user,pwd,type})
+    axios.post('/user/regiseter',{user,pwd,type})
       .then(res=>{
         if(res.status == 200 && res.data.code ===0){
             // 传入 {param.user,params.pwd,params.type}
+            console.log(res.data);
           dispatch(registerSuccess({user,pwd,type}))
         }else{
           dispatch(errorMsg(res.data.msg))

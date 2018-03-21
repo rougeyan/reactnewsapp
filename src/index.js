@@ -9,6 +9,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
 import Login from './container/login/login'
+import AuthRoute from './container/boss/boss'
 
 import Register from './container/register/register'
 
@@ -27,10 +28,15 @@ const store = createStore(reducers, compose(
   window.devToolsExtension?window.devToolsExtension():f=>f
 ))
 
+function Boss(){
+  return <h2>boss页面</h2>
+}
 ReactDOM.render(
   (<Provider store={store}>
       <BrowserRouter>
         <div>
+          <AuthRoute></AuthRoute>
+          <Route path='/boss' component={Boss}></Route>
           <Route path='/login' component={Login}></Route>
           <Route path='/register' component={Register}></Route>
         </div>
