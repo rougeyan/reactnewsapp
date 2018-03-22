@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { gerRedirectPath } from '../util';
 
 //定义派发的事件;
 

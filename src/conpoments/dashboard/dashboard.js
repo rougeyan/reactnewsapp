@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import Boss from '../boss/boss'
+import Genius from '../genius/genius'
 
 import { NavBar } from 'antd-mobile';
 import NavLinkBar  from '../../conpoments/navlinkbar/navlinkbar'
@@ -13,9 +14,6 @@ const  Mheader = styled.div`
   top: 0;
   width: 100%;
 `
-function Genius(){
-  return <h3>laji,here</h3>
-}
 function Msg(){
   return <h3>Msg,here</h3>
 }
@@ -42,16 +40,16 @@ class Dashboard extends React.Component{
     // console.log(userState.type === 'boss')
     const navList = [{
       path: '/boss',
-      text: '渣渣',
+      text: '找搬砖',
       iocn: 'boss',
-      title: '朋友圈',
+      title: '大佬圈',
       component: Boss,
       hide: userState.type === 'genius'
     },{
       path: '/genius',
       text: '大佬',
       iocn: 'job',
-      title: '大佬圈',
+      title: '搬砖队友',
       component: Genius,
       hide: userState.type === 'boss'
     },{
