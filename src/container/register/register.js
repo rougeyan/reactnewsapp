@@ -1,6 +1,6 @@
 import React from 'react'
 import Logo from '../../conpoments/logo/logo'
-import {List, InputItem, Radio, WingBlank, WhiteSpace, Button} from 'antd-mobile'
+import {List, InputItem, Radio, WingBlank, Button} from 'antd-mobile'
 import styled from 'styled-components'
 
 import { Redirect} from 'react-router-dom'
@@ -21,7 +21,7 @@ class Register extends React.Component {
       user:'',
       pwd:'',
       repeatpwd:'',
-      type: 'genuis'
+      type: 'genius'
     }
   }
   handleChange(key,val){
@@ -56,7 +56,7 @@ class Register extends React.Component {
             <InputItem onChange={v=>this.handleChange('pwd',v)}>密码</InputItem>
             <InputItem onChange={v=>this.handleChange('repeatpwd',v)}>确认密码</InputItem>
             <RegisterText>请选择你的身份</RegisterText>
-            <RadioItem onChange={()=>this.handleChange('type','genuis')} checked={this.state.type === 'genuis'}>搬砖码农</RadioItem>
+            <RadioItem onChange={()=>this.handleChange('type','genius')} checked={this.state.type === 'genius'}>搬砖码农</RadioItem>
             <RadioItem onChange={()=>this.handleChange('type','boss')} checked={this.state.type === 'boss'}>米饭班主</RadioItem>
             <Button onClick={()=>this.handleRegister()} type='primary'> 注册</Button>
           </List>

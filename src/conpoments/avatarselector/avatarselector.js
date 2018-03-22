@@ -1,6 +1,10 @@
 import React from 'react'
 import { Grid, List} from 'antd-mobile'
+import PropTypes from 'prop-types'
 class AvatatSelector extends React.Component{
+  static propTypes = {
+    selectAvatar: PropTypes.func.isRequired 
+  }
   constructor(props){
     super(props)
     this.state = {
@@ -15,7 +19,7 @@ class AvatatSelector extends React.Component{
     }))
     const gridHeader = this.state.text ? (<div>
                                             <span>已选择头像</span>
-                                            <img style={{width:20}} src={this.state.icon} />
+                                            <img style={{width:20}} src={this.state.icon} alt='' />
                                             <span>头像名称{this.state.text}</span>
                                           </div>) : '请选择头像'
     return (

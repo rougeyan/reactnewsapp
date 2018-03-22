@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavBar, Icon, InputItem,TextareaItem,Button} from 'antd-mobile';
+import { NavBar, InputItem,TextareaItem,Button} from 'antd-mobile';
 import AvatarSelector from '../../conpoments/avatarselector/avatarselector'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
@@ -35,7 +35,7 @@ class BossInfo extends React.Component{
   }
   render(){
     const path = this.props.location.pathname;
-    const redirect = this. props.redirectTo;
+    const redirect = this.props.redirectTo;
     return (
       <div>
         {/* 验证路由的跳转是否正确 */}

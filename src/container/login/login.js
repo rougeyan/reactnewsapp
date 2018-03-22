@@ -1,6 +1,6 @@
 import React from 'react'
 import Logo from '../../conpoments/logo/logo'
-import {List, InputItem, WingBlank, WhiteSpace, Button,Toast} from 'antd-mobile'
+import {List, InputItem, WingBlank, WhiteSpace, Button} from 'antd-mobile'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Redirect }from 'react-router-dom'

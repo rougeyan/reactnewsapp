@@ -3,9 +3,7 @@ import { gerRedirectPath } from '../util';
 //定义派发的事件;
 
 const AUTH_SUCCESS =  'AUTH_SUCCESS'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
-
 const LOAD_DATA = 'LOAD_DATA';
 
 
@@ -19,7 +17,6 @@ const initState={
 // reducer
 // 这里给他初始化默认值
 export function user(state=initState,action){
-  console.log(state);
    switch(action.type){
     case AUTH_SUCCESS:
       return {...state,msg:'', isAuth: true, redirectTo:gerRedirectPath(action.payload),...action.payload}
@@ -30,9 +27,7 @@ export function user(state=initState,action){
     default:
       return state
   }
-  return state
 }
-
 
 
 // 这里就是action
@@ -62,9 +57,8 @@ export function login({user,pwd}){
   return dispatch=>{
     axios.post('/user/login',{user,pwd})
       .then(res=>{
-        if(res.status == 200 && res.data.code ===0){
+        if(res.status === 200 && res.data.code ===0){
             // 传入 {param.user,params.pwd,params.type}
-            console.log(res.data);
           dispatch(authSuccess(res.data.data))
         }else{
           dispatch(errorMsg(res.data.msg))
@@ -81,16 +75,15 @@ export function regisger({user,pwd,repeatpwd,type}){
   if(!user || !pwd || !type ){
     return errorMsg('必须输入用户名密码')
   }
-  if(pwd != repeatpwd) {
+  if(pwd !== repeatpwd) {
     return errorMsg('两次密码必须相同')
   }
   // 移步操作 返回一个 函数 callback
   return dispatch=>{
     axios.post('/user/regiseter',{user,pwd,type})
       .then(res=>{
-        if(res.status == 200 && res.data.code ===0){
+        if(res.status === 200 && res.data.code === 0){
             // 传入 {param.user,params.pwd,params.type}
-            console.log(res.data);
           dispatch(authSuccess({user,pwd,type}))
         }else{
           dispatch(errorMsg(res.data.msg))
@@ -105,7 +98,7 @@ export function update(data){
   
   return dispatch=>{
     axios.post('/user/update',data).then(res =>{
-      if(res.status == 200 && res.data.code ===0){
+      if(res.status === 200 && res.data.code ===0){
         dispatch(authSuccess(res.data.data))
       }else{
        dispatch(errorMsg(res.data.msg))

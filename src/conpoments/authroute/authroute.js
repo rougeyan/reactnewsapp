@@ -1,6 +1,4 @@
 import React from 'react'
-import {List, InputItem, WingBlank, WhiteSpace, Button} from 'antd-mobile'
-import styled from 'styled-components'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -40,7 +38,7 @@ class AuthRoute extends React.Component {
     // // 获取用户信息
     axios.get('/user/info')
       .then(res=>{
-        if(res.status == 200){
+        if(res.status === 200){
           if(res.data.code === 0){
             this.props.loadData(res.data.data);    
           }

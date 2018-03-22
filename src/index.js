@@ -1,18 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import ReactDom from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Login from './container/login/login'
 import AuthRoute from './conpoments/authroute/authroute'
 import Register from './container/register/register'
 import BossInfo from './container/bossinfo/bossinfo'
 import GeniusInfo from './container/geniusinfo/geniusinfo'
+import Dashboard from './conpoments/dashboard/dashboard'
 
 import reducers from './reducer'
 // 全局reducer
@@ -40,6 +39,8 @@ ReactDOM.render(
             <Route path='/bossinfo' component={BossInfo}></Route>
             <Route path='/login' component={Login}></Route>
             <Route path='/register' component={Register}></Route>
+            {/* //只要不指定这个 path 所有都会命中这个东西 */}
+            <Route component={Dashboard}></Route>
           </Switch>
         </div>
       </BrowserRouter>
