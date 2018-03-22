@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import Boss from '../boss/boss'
 
 import { NavBar } from 'antd-mobile';
 import NavLinkBar  from '../../conpoments/navlinkbar/navlinkbar'
@@ -12,9 +13,6 @@ const  Mheader = styled.div`
   top: 0;
   width: 100%;
 `
-function Boss(){
-  return <h3>boss,here</h3>
-}
 function Genius(){
   return <h3>laji,here</h3>
 }

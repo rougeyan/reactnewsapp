@@ -151,10 +151,13 @@ router.post('/login', function(req, res, next) {
     
 // 这里是测试需要;
 router.get('/list', function(req, res, next) {
-  User.find({},function(err,doc){
+  // post的参数用req.body
+  // get 的参数用req.query
+  const { type } = req.query;
+  User.find({type},_filter,function(err,doc){
     res.json({
       code: 0,
-      doc: doc
+      data: doc
     });
   })
 });

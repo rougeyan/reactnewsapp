@@ -145,8 +145,8 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               plugins: [
-                ["import",{"libraryName":"antd","style":"css"}],
                 ["transform-decorators-legacy"]
+                //不引入反而没有提示?
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
