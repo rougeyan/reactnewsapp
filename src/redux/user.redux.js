@@ -37,7 +37,9 @@ export function user(state=initState,action){
 
 // 这里就是action
 
-function authSuccess(data){
+function authSuccess(obj){
+  const {pwd, ...data} = obj
+  // 这里的做法就是过滤pwd这个字段的信息;
   return {type: AUTH_SUCCESS, payload:data}
 }
 

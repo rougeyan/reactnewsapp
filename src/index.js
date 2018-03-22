@@ -12,6 +12,7 @@ import Login from './container/login/login'
 import AuthRoute from './conpoments/authroute/authroute'
 import Register from './container/register/register'
 import BossInfo from './container/bossinfo/bossinfo'
+import GeniusInfo from './container/geniusinfo/geniusinfo'
 
 import reducers from './reducer'
 // 全局reducer
@@ -32,9 +33,10 @@ ReactDOM.render(
   (<Provider store={store}>
       <BrowserRouter>
         <div>
-          {/* AuthRoute这个组件加载实际上就是检验登陆状态 */}
+          {/* AuthRoute这个组件加载实际上就是检验登陆状态*/}
           <AuthRoute></AuthRoute>
           <Switch>
+            <Route path='/geniusinfo' component={GeniusInfo}></Route>
             <Route path='/bossinfo' component={BossInfo}></Route>
             <Route path='/login' component={Login}></Route>
             <Route path='/register' component={Register}></Route>

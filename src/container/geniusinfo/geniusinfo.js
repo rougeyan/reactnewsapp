@@ -10,13 +10,11 @@ import { update } from '../../redux/user.redux'
   {update}
 )
 
-class BossInfo extends React.Component{
+class GeniusInfo extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       title: '',
-      company: '',
-      money: '' ,
       desc: '',
       avatar: ''
     }
@@ -38,17 +36,15 @@ class BossInfo extends React.Component{
     const redirect = this. props.redirectTo;
     return (
       <div>
-        {/* 验证路由的跳转是否正确 */}
+        {/* 验证路由的跳转是否正确,并且重定向*/}
         {(redirect && redirect !== path)? <Redirect to={this.props.redirectTo} /> : null}
-        <NavBar mode="dark" >完善老板信息</NavBar>
+        <NavBar mode="dark" >渣渣的信息</NavBar>
         <AvatarSelector selectAvatar={this.selectAvatar}></AvatarSelector>
-        <InputItem onChange={(v)=>this.onChange('title',v)}>招聘职位</InputItem>
-        <InputItem onChange={(v)=>this.onChange('company',v)}>公司名次</InputItem>
-        <InputItem onChange={(v)=>this.onChange('money',v)}>薪酬</InputItem>
-        <TextareaItem onChange={(v)=>this.onChange('desc',v)} rows={3} autoHeight title='职位要求'></TextareaItem>
+        <InputItem onChange={(v)=>this.onChange('title',v)}>求职职位</InputItem>
+        <TextareaItem onChange={(v)=>this.onChange('desc',v)} rows={3} autoHeight title='个人简介'></TextareaItem>
         <Button onClick={()=>{this.props.update(this.state)}} type="primary">保存</Button>
       </div>
     )
   }
 }
-export default BossInfo
+export default GeniusInfo
