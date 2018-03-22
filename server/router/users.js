@@ -55,44 +55,76 @@ router.get('/info', function(req, res, next) {
       })
     }
   })
-  // res.json({code: 0});
 });
+
+
 // 注册页面
 router.post('/regiseter', function(req, res, next) {
-  console.log(`参数是${req.body}`)
   const {user, pwd, type} = req.body;
-  console.log({user, pwd, type})
-  User.findOne({user:user},_filter,function(err,doc){
+  User.findOne({user:user},function(err,doc){
     if(doc){
       return res.json({
         code: 1,
         msg: '该用户已经被注册'
       })
-    }else if(err){
-        return res.json({
-    code: 0,
-    code2: {user, pwd, type}
-  })
     }
-    User.create({user, pwd:md5Pwd(pwd), type},function(e,d){
+    // 新的userMode 模型?不是很懂这个东西草他吗的?
+    // 前面定义了 = const User = model.getModel('user')
+    // mongoose.model(user) 
+    // User 等于 mongoose.model(user,new mongoose.Schema(models[user]))
+    // 之前是User create
+    // 变成 UserModel.save
+    // 这个UserModel 已经是colletion的部分的一个document?
+    // 应该是吧?
+    // userModel 就是一个document
+    // 新建一个实例,并且传参 User是表, userModel 是一个document 的实例;
+    const userModel = new User({
+      user,type,pwd:md5Pwd(pwd)
+    })
+    // 存储这个用户并且给它返回cookies
+    // 因为这个_id是注册了才有
+    // 不用create 改用save, 因为create 不能返回_
+    // save 是获取的
+    userModel.save(function(e,d){
       if (e){
         return res.json({
           code: 1.1,
           msg: '数据库抽风,请联系管理员'
         })
       }
+      // 这里把获得的doc 只拿里面几个参数
+      const {user,type,_id} = d;
+      res.cookie('userid',_id,{
+        path:'/',
+        maxAge: 1000*60*60
+      })
       return res.json({
-        code: 0,
-        msg: '注册成功'
+        code:0,
+        data: {user,type,_id}
       })
     })
+
+
+  //   //旧的方法
+
+  //   User.create({user, pwd:md5Pwd(pwd), type},function(e,d){
+  //     if (e){
+  //       return res.json({
+  //         code: 1.1,
+  //         msg: '数据库抽风,请联系管理员'
+  //       })
+  //     }
+  //     return res.json({
+  //       code: 0,
+  //       msg: '注册成功'
+  //     })
+  //   })
+
+
+
   })
-  
-  // return res.json({
-  //   code: 0,
-  //   code2: {user, pwd, type}
-  // })
-}); 
+});
+
 router.post('/login', function(req, res, next) {
   const {user,pwd} = req.body;
   User.findOne({user,pwd:md5Pwd(pwd)},_filter,function(err,doc){
@@ -127,4 +159,4 @@ router.get('/list', function(req, res, next) {
   })
 });
 
-module.exports = router; 
+module.exports = router;

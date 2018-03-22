@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { gerRedirectPath } from '../util';
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-const ERROR_MSG = 'ERROR_MSG';
+//定义派发的事件;
+
+const AUTH_SUCCESS =  'AUTH_SUCCESS'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+const ERROR_MSG = 'ERROR_MSG';
+
 const LOAD_DATA = 'LOAD_DATA';
 
 
@@ -18,9 +21,7 @@ const initState={
 export function user(state=initState,action){
   console.log(state);
    switch(action.type){
-    case REGISTER_SUCCESS:
-      return {...state,msg:'', isAuth: true, redirectTo:gerRedirectPath(action.payload),...action.payload}
-    case LOGIN_SUCCESS:
+    case AUTH_SUCCESS:
       return {...state,msg:'', isAuth: true, redirectTo:gerRedirectPath(action.payload),...action.payload}
     case LOAD_DATA:
       return {...state,...action.payload}
@@ -31,13 +32,13 @@ export function user(state=initState,action){
   }
   return state
 }
-// 这里就是action
-function registerSuccess(data){
-  return {type: REGISTER_SUCCESS, payload:data}
-}
 
-function loginSuccess(data){
-  return {type: LOGIN_SUCCESS, payload:data}
+
+
+// 这里就是action
+
+function authSuccess(data){
+  return {type: AUTH_SUCCESS, payload:data}
 }
 
 // 其实用payload也可以,不用
@@ -49,6 +50,9 @@ export function loadData(userinfo){
   return {type: LOAD_DATA, payload:userinfo}   
 }
 
+
+
+
 export function login({user,pwd}){
   if(!user || !pwd ){
     return errorMsg('必须输入用户名密码')
@@ -59,7 +63,7 @@ export function login({user,pwd}){
         if(res.status == 200 && res.data.code ===0){
             // 传入 {param.user,params.pwd,params.type}
             console.log(res.data);
-          dispatch(loginSuccess(res.data.data))
+          dispatch(authSuccess(res.data.data))
         }else{
           dispatch(errorMsg(res.data.msg))
         }
@@ -85,11 +89,25 @@ export function regisger({user,pwd,repeatpwd,type}){
         if(res.status == 200 && res.data.code ===0){
             // 传入 {param.user,params.pwd,params.type}
             console.log(res.data);
-          dispatch(registerSuccess({user,pwd,type}))
+          dispatch(authSuccess({user,pwd,type}))
         }else{
           dispatch(errorMsg(res.data.msg))
         }
       })
 
+  }
+}
+
+export function update(data){
+  //应该给以函数 判断传入的任一是否未空?
+  
+  return dispatch=>{
+    axios.post('/user/update',data).then(res =>{
+      if(res.status == 200 && res.data.code ===0){
+        dispatch(authSuccess(res.data.data))
+      }else{
+       dispatch(errorMsg(res.data.msg))
+      }
+    })
   }
 }
