@@ -1,11 +1,16 @@
 import React from 'react'
-import Logo from '../../conpoments/logo/logo'
 import {List, InputItem, WingBlank, WhiteSpace, Button} from 'antd-mobile'
 import styled from 'styled-components'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { loadData } from '../../redux/user.redux'
 // import apiManage from '../../api/apiManage'; //这里是测试管理api的接口// 后续优化 
 @withRouter
+@connect(
+  null,
+  {loadData}
+)
 /**
  * 这里引入withRouter 
  * 以及使用@withRouter
@@ -32,17 +37,16 @@ class AuthRoute extends React.Component {
     if (publicList.indexOf[pathname]>-1){
       return null
     }    
-    // 获取用户信息
-    axios.get('/user/info').then((res)=>{
-      // 返回结果操作 一般200的状态状态码
-      if (res.status === 200 ){
-        if(res.data.code ==0){
-          // 具备一些登陆信息
+    // // 获取用户信息
+    axios.get('/user/info')
+      .then(res=>{
+        if(res.status == 200){
+          if(res.data.code ===0){
+            this.props.loadData(res.data.data);    
+          }
         }else{
-          // 这里是进行了拦截,无法进入bios 页面;
           this.props.history.push('/login')
         }
-      }
     })
     // 获取用户信息;
     // 是否登陆

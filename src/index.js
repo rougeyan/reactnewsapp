@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
 import Login from './container/login/login'
-import AuthRoute from './container/boss/boss'
+import AuthRoute from './conpoments/authroute/authroute'
 
 import Register from './container/register/register'
 
@@ -35,8 +35,8 @@ ReactDOM.render(
   (<Provider store={store}>
       <BrowserRouter>
         <div>
+          {/* AuthRoute这个组件加载实际上就是检验登陆状态 */}
           <AuthRoute></AuthRoute>
-          <Route path='/boss' component={Boss}></Route>
           <Route path='/login' component={Login}></Route>
           <Route path='/register' component={Register}></Route>
         </div>

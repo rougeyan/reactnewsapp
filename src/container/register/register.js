@@ -3,6 +3,9 @@ import Logo from '../../conpoments/logo/logo'
 import {List, InputItem, Radio, WingBlank, WhiteSpace, Button} from 'antd-mobile'
 import styled from 'styled-components'
 
+import { Redirect} from 'react-router-dom'
+
+
 import { connect } from 'react-redux'
 import { regisger } from '../../redux/user.redux'
 
@@ -41,18 +44,23 @@ class Register extends React.Component {
     const RadioItem = Radio.RadioItem;
     return (
       <div>
+        {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
+        {/* //记住上面这部分是强制的 
+              下面的东西就不会再理了*/ }
         <Logo/>
         <RegisterText>注册页面</RegisterText>
-        <List>
-          {this.props.msg?<ErrorText>{this.props.msg}</ErrorText>: null}
-          <InputItem onChange={v=>this.handleChange('user',v)}>用户名</InputItem>
-          <InputItem onChange={v=>this.handleChange('pwd',v)}>密码</InputItem>
-          <InputItem onChange={v=>this.handleChange('repeatpwd',v)}>确认密码</InputItem>
-          <RegisterText>请选择你的身份</RegisterText>
-          <RadioItem onChange={()=>this.handleChange('type','genuis')} checked={this.state.type === 'genuis'}>前端渣渣</RadioItem>
-          <RadioItem onChange={()=>this.handleChange('type','boss')} checked={this.state.type === 'boss'}>老板您好</RadioItem>
-          <Button onClick={()=>this.handleRegister()} type='primary'> 注册</Button>
-        </List>
+        <WingBlank>
+          <List>
+            {this.props.msg?<ErrorText>{this.props.msg}</ErrorText>: null}
+            <InputItem onChange={v=>this.handleChange('user',v)}>用户名</InputItem>
+            <InputItem onChange={v=>this.handleChange('pwd',v)}>密码</InputItem>
+            <InputItem onChange={v=>this.handleChange('repeatpwd',v)}>确认密码</InputItem>
+            <RegisterText>请选择你的身份</RegisterText>
+            <RadioItem onChange={()=>this.handleChange('type','genuis')} checked={this.state.type === 'genuis'}>搬砖码农</RadioItem>
+            <RadioItem onChange={()=>this.handleChange('type','boss')} checked={this.state.type === 'boss'}>米饭班主</RadioItem>
+            <Button onClick={()=>this.handleRegister()} type='primary'> 注册</Button>
+          </List>
+        </WingBlank>
       </div>
     )
   }
