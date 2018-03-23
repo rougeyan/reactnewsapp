@@ -3,10 +3,13 @@ import { getUserList } from '../../redux/chatuser.redux'
 import UserCard from '../usercard/usercard'
 
 import { connect } from 'react-redux'
+
+
 @connect(
   state =>state.chatuser,
   { getUserList }
 )
+
 class Boss extends React.Component{
   constructor(props){
     super(props);
@@ -15,6 +18,7 @@ class Boss extends React.Component{
     }
   }
   componentDidMount(){
+    console.log(this.props);
     this.props.getUserList('genius')
     // 本来是属于组件渲染改变组件内部
     // 但是为了方便状态管理, 设置为react-redux 管理;

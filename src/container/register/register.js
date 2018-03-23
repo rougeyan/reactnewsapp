@@ -1,9 +1,10 @@
 import React from 'react'
 import Logo from '../../conpoments/logo/logo'
-import {List, InputItem, Radio, WingBlank, Button} from 'antd-mobile'
+import {List, InputItem, Radio, WingBlank, Button,WhiteSpace} from 'antd-mobile'
 import styled from 'styled-components'
 
 import { Redirect} from 'react-router-dom'
+import  LowHOC  from '../../conpoments/HOC/hoc'
 
 
 import { connect } from 'react-redux'
@@ -13,26 +14,33 @@ import { regisger } from '../../redux/user.redux'
   state => state.user, 
   { regisger }
 )
- 
+@LowHOC
 class Register extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      user:'',
-      pwd:'',
-      repeatpwd:'',
-      type: 'genius'
-    }
+    // this.state = {
+    //   user:'',
+    //   pwd:'',
+    //   repeatpwd:'',
+    //   type: 'genius'
+    // }
   }
-  handleChange(key,val){
-    this.setState({
-      // 这里加一个[key],就能直接改变这个 键值;
-      [key]: val
-    })
+  componentDidMount(){
+    //对一些默认值的设置
+    this.props.handleChange('type','genius')
   }
+  // handleChange(key,val){
+  //   this.setState({
+  //     // 这里加一个[key],就能直接改变这个 键值;
+  //     [key]: val
+  //   })
+  // }
   handleRegister(){
     console.log(this.state)
-    this.props.regisger(this.state);
+    this.props.regisger(this.props.state);
+  }
+  login(){
+    this.props.history.push('/login');
   }
   render(){
     const RegisterText = styled.h3`
@@ -52,13 +60,16 @@ class Register extends React.Component {
         <WingBlank>
           <List>
             {this.props.msg?<ErrorText>{this.props.msg}</ErrorText>: null}
-            <InputItem onChange={v=>this.handleChange('user',v)}>用户名</InputItem>
-            <InputItem onChange={v=>this.handleChange('pwd',v)}>密码</InputItem>
-            <InputItem onChange={v=>this.handleChange('repeatpwd',v)}>确认密码</InputItem>
+            <InputItem onChange={v=>this.props.handleChange('user',v)}>用户名</InputItem>
+            <InputItem onChange={v=>this.props.handleChange('pwd',v)}>密码</InputItem>
+            <InputItem onChange={v=>this.props.handleChange('repeatpwd',v)}>确认密码</InputItem>
             <RegisterText>请选择你的身份</RegisterText>
-            <RadioItem onChange={()=>this.handleChange('type','genius')} checked={this.state.type === 'genius'}>搬砖码农</RadioItem>
-            <RadioItem onChange={()=>this.handleChange('type','boss')} checked={this.state.type === 'boss'}>米饭班主</RadioItem>
+            <RadioItem onChange={()=>this.props.handleChange('type','genius')} checked={this.state.type === 'genius'}>搬砖码农</RadioItem>
+            <RadioItem onChange={()=>this.props.handleChange('type','boss')} checked={this.state.type === 'boss'}>米饭班主</RadioItem>
+            <WhiteSpace></WhiteSpace>
             <Button onClick={()=>this.handleRegister()} type='primary'> 注册</Button>
+            <WhiteSpace></WhiteSpace>
+            <Button onClick={()=>this.login()} type='primary'> 返回登陆</Button>
           </List>
         </WingBlank>
       </div>

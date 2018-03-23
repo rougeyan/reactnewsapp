@@ -2,8 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+
 import Boss from '../boss/boss'
 import Genius from '../genius/genius'
+import User from '../user/user'
 
 import { NavBar } from 'antd-mobile';
 import NavLinkBar  from '../../conpoments/navlinkbar/navlinkbar'
@@ -63,14 +65,15 @@ class Dashboard extends React.Component{
       text: '我',
       iocn: 'userState',
       title: '个人中心',
-      component: Me
+      component: User
     }]
-    
+    // find() 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined。
+    const NavItem = navList.find(v=>v.path === pathname);
     return (
       <div>
         {/* NavBar 只显示过滤掉的名称 */}
         <Mheader>
-          <NavBar mode='dark'>{navList.find(v=>v.path === pathname).title}</NavBar>
+          <NavBar mode='dark'>{ NavItem ? NavItem.title:''}</NavBar>
         </Mheader>
         <Switch>
           {navList.map(v=>(

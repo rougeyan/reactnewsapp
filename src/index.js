@@ -35,10 +35,10 @@ ReactDOM.render(
           {/* AuthRoute这个组件加载实际上就是检验登陆状态*/}
           <AuthRoute></AuthRoute>
           <Switch>
-            <Route path='/geniusinfo' component={GeniusInfo}></Route>
-            <Route path='/bossinfo' component={BossInfo}></Route>
             <Route path='/login' component={Login}></Route>
             <Route path='/register' component={Register}></Route>
+            <Route path='/geniusinfo' component={GeniusInfo}></Route>
+            <Route path='/bossinfo' component={BossInfo}></Route>
             {/* //只要不指定这个 path 所有都会命中这个东西 */}
             <Route component={Dashboard}></Route>
           </Switch>
