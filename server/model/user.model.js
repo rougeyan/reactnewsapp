@@ -20,6 +20,12 @@ const models= {
     'money':{type:String}
   },
   chat:{
+    'chatid':{type:String,require:true},
+    'from':{type:String,require:true},
+    'to':{type:String,require:true}, // 链表查询 population?
+    'read':{type:Boolean,default:false}, // read 这个风状态只对同有效  是从from 发出来的;
+    'content':{type:String,require:true,default:''},
+    'create_time':{type:Number,default:new Date().getTime()}
   }
 }
 // 批量动态

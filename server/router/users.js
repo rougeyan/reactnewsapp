@@ -7,6 +7,8 @@ const utils = require('utility')
 
 const User = model.getModel('user')
 
+const Chat = model.getModel('chat')
+
 const DB_URL = 'mongodb://localhost:27017/react'
 
 mongoose.connect(DB_URL);
@@ -162,7 +164,7 @@ router.get('/list', function(req, res, next) {
   })
 });
 
-router.post('/update',function(req,res){
+router.post('/update',function(req,res,next){
   const userid = req.cookies.userid;
   if(!userid){
     return json.dumps({
@@ -178,6 +180,26 @@ router.post('/update',function(req,res){
     return res.json({
       code: 0,
       data: data
+    })
+  })
+})
+
+router.get('/getmsglist',function(req,res,next){
+  const user = req.cookies.userid
+  // 查询条件多个
+  // '$or':[{
+  //   from:user,
+  //   to:user 
+  // }]
+  Chat.find({},function(err,doc){
+    if(err){
+      return res.json({
+        code:1
+      })
+    }
+    return res.json({
+      code: 0,
+      msgs:doc
     })
   })
 })

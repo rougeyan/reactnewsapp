@@ -14,6 +14,28 @@ var app = express();
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
+var model = require('./model/user.model.js');
+var Chat = model.getModel('chat')
+// io 是全局的
+io.on('connection', function(socket){
+  console.log('user.login')
+  //次次监听的客户端;
+  socket.on('sendmsg',function(data){
+    console.log(data);
+    const {from,to,msg} = data;
+    const chatid =[from, to].sort().join('_'); //定义唯一的聊天id
+    // socket.emit('recvmsg',data); 
+    Chat.create({
+      chatid,
+      from,
+      to,
+      content:msg
+    },function(err,doc){
+      // io 是全局
+      io.emit('recvmsg',Object.assign({},doc._doc))// 这里跟es6 ...类似 doc._doc 就是整个doc的colletions
+    })
+  })
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
