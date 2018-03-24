@@ -3,10 +3,9 @@ import styled from 'styled-components'
 import logoPic from './logo.jpg'
 
 const LogoWrap = styled.div`
-  margin-top: 20px;
+  margin: 10px 0;
   text-align: center; 
   /* 给图片居中 */
-  margin-bottom: 20px;
   img{
     width: 50%;
     height: 50%;

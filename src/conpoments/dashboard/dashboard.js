@@ -10,9 +10,10 @@ import User from '../user/user'
 import { NavBar } from 'antd-mobile';
 import NavLinkBar  from '../../conpoments/navlinkbar/navlinkbar'
 
+import { getMsgList, sendMsg, recvMsg} from '../../redux/chat.redux'
+
 
 const  Mheader = styled.div`
-  position: position;
   top: 0;
   width: 100%;
 `
@@ -25,10 +26,19 @@ function Me(){
 
 
 @connect( 
-  state => state
+  state => state,
+  { getMsgList, recvMsg }
 )
 
 class Dashboard extends React.Component{
+  componentDidMount(){
+    // 进入dashboard 就获取列表信息
+    // 以及开始监听 接受的信息
+    if(!this.props.chat.chatmsg.length){
+      this.props.recvMsg();
+      this.props.getMsgList();
+    }
+  }
   render(){
     const pathname = this.props.location.pathname
     const userState = this.props.user
@@ -56,7 +66,7 @@ class Dashboard extends React.Component{
       hide: userState.type === 'boss'
     },{
       path: '/msg',
-      text: '消息',
+      text: '消息列表',
       iocn: 'msg',
       title: '消息列表',
       component: Msg
@@ -72,14 +82,18 @@ class Dashboard extends React.Component{
     return (
       <div>
         {/* NavBar 只显示过滤掉的名称 */}
-        <Mheader>
+        {/* <Mheader> */}
+        <div className='fixheader'>
           <NavBar mode='dark'>{ NavItem ? NavItem.title:''}</NavBar>
-        </Mheader>
-        <Switch>
-          {navList.map(v=>(
-            <Route key={v.text} path={v.path} component={v.component}/>
-          ))}
-        </Switch>
+        </div>
+        {/* </Mheader> */}
+        <div>
+          <Switch>
+            {navList.map(v=>(
+              <Route key={v.text} path={v.path} component={v.component}/>
+            ))}
+          </Switch>
+        </div>
         <NavLinkBar data={navList}></NavLinkBar>
       </div>
     )

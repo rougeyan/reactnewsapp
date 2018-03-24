@@ -52,6 +52,7 @@ class Register extends React.Component {
     const RadioItem = Radio.RadioItem;
     return (
       <div>
+        {console.log(this.props)}
         {this.props.redirectTo ? <Redirect to={this.props.redirectTo}></Redirect> : null}
         {/* //记住上面这部分是强制的 
               下面的东西就不会再理了*/ }
@@ -64,8 +65,9 @@ class Register extends React.Component {
             <InputItem onChange={v=>this.props.handleChange('pwd',v)}>密码</InputItem>
             <InputItem onChange={v=>this.props.handleChange('repeatpwd',v)}>确认密码</InputItem>
             <RegisterText>请选择你的身份</RegisterText>
-            <RadioItem onChange={()=>this.props.handleChange('type','genius')} checked={this.state.type === 'genius'}>搬砖码农</RadioItem>
-            <RadioItem onChange={()=>this.props.handleChange('type','boss')} checked={this.state.type === 'boss'}>米饭班主</RadioItem>
+            <RadioItem onChange={()=>this.props.handleChange('type','genius')} checked={this.props.state.type === 'genius'}>搬砖码农</RadioItem>
+                                                                                        {/* // 这里要注意 是从props. 穿进来的state */}
+            <RadioItem onChange={()=>this.props.handleChange('type','boss')} checked={this.props.state.type === 'boss'}>米饭班主</RadioItem>
             <WhiteSpace></WhiteSpace>
             <Button onClick={()=>this.handleRegister()} type='primary'> 注册</Button>
             <WhiteSpace></WhiteSpace>

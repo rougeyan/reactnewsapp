@@ -191,17 +191,34 @@ router.get('/getmsglist',function(req,res,next){
   //   from:user,
   //   to:user 
   // }]
-  Chat.find({},function(err,doc){
-    if(err){
+  // User 表中 这里先获取所有人的信息;
+  User.find({},function(e,userdoc){
+    var users = {}
+    // 遍历 
+    // 得到所有人的资料放到一个数组里面
+    userdoc.forEach(function(v){
+      users[v._id] = {
+        name:v.user,
+        avatar: v.avatar
+      }
+    })
+    Chat.find({'$or':[{from:user},{to:user}]},function(err,doc){
+      if(err){
+        return res.json({
+          code:1
+        })
+      }
       return res.json({
-        code:1
+        code: 0,
+        // 把我们的聊天记录;
+        msgs:doc,
+        // 所有的人的头像资料都暴露出去
+        users:users
       })
-    }
-    return res.json({
-      code: 0,
-      msgs:doc
     })
   })
+
+
 })
 
 module.exports = router;

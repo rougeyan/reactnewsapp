@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { TabBar } from 'antd-mobile'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import styled from 'styled-components'
 
@@ -10,7 +11,9 @@ const Mfooter = styled.div`
   bottom: 0;
   width: 100%;
 `
-
+@connect(
+  state =>state.chat
+)
 @withRouter
 class NavLinkBar extends React.Component{
   static propTypes ={
@@ -25,7 +28,8 @@ class NavLinkBar extends React.Component{
       <Mfooter>
         <TabBar>{
           navList.map(v=>(
-            <TabBar.Item  title={v.text} 
+            <TabBar.Item  badge={v.title === '消息列表'? this.props.unread:null}
+                          title={v.text} 
                           key={v.path} 
                           icon={{uri: require('../logo/logo.jpg')}}
                           selectedIcon={{uri: require('../logo/logo.jpg')}}

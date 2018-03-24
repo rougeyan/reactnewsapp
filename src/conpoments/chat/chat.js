@@ -1,10 +1,10 @@
 import React from 'react'
 import io from 'socket.io-client'
-import { List, InputItem, NavBar} from 'antd-mobile'
+import { List, InputItem, NavBar, Icon, Grid, WhiteSpace} from 'antd-mobile'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { getMsgList, sendMsg, recvMsg} from '../../redux/chat.redux';
-
+import { getChatId } from '../../util'
 
 const socket = io('ws://localhost:3000');
 @connect(
@@ -31,7 +31,8 @@ class Chat extends React.Component{
       from,to,msg
     })
     this.setState({
-      text:''
+      text:'',
+      shouldEmoj: false
     })
     // socket.emit('sendmsg',{text:this.state.text});
     // this.setState({
@@ -53,45 +54,97 @@ class Chat extends React.Component{
     //     msg:[...this.state.msglist, data.text]
     //   })
     // })
-    console.log(this.props);
-    this.props.getMsgList();
-    this.props.recvMsg();
+    if(!this.props.chat.chatmsg.length){
+      console.log(this.props);
+      this.props.recvMsg();
+      this.props.getMsgList();
+    }
+    // 修正错位
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+    }, 0);
   }
-  
+  fixCarousel(){
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+    }, 0);
+  }
   render(){
     const StickFooter = styled.div`
-      z-index :10;
-      position:absolute;
-      bottom: 0;
-      width: 100%;
+      /* z-index :10; */
+      /* position:fixed; */
+      /* bottom: 0; */
+      /* width: 100%; */
     `
     const ItemRight = styled.div`
       text-align: right;
     `
-    const user = this.props.match.params.user;
-    const Item = List.Item
+    //路由过来的user
+    const userid = this.props.match.params.user;
+    const Item = List.Item;
+    const users = this.props.chat.users;
+    // 当前拼接的
+    const chatidd = getChatId(userid, this.props.user._id)
+    // 状态中拿到的
+    const chatmsgs = this.props.chat.chatmsg.filter(v=>v.chatid == chatidd)
+    console.log(chatmsgs);
+    // 从状态中找, 找不到不渲染
+    if(!users[userid]){
+      return null;
+    }
+
+    // 定义表情表 //因为没有表情直接拿文字代替;
+    const emoj = 'emoj1,emoj2,emoj3,emoj4,emoj5,emoj6,emoj7,emoj8,,emoj9,emoj10,emoj11,emoj12,emoj13'.split(',').filter(v=>v).map(v=>({text:v,icon:require('../logo/logo.jpg')}))
+                                                                      // 假如是返回一行直接 .map(v=>{text:v,icon:require('../logo/logo.jpg')})
+                                                                      // 多行返回 需要 带一个括号?
+    
     return(
-      <div>
-        <NavBar mode='dark'>{`与${user}聊天中`}</NavBar>
-        <StickFooter>
-          {/* {this.props.chat.chatmsg.map(v=>{
+      <div id='chat-page'>
+        <NavBar class='Navb'
+                mode='dark'
+                icon={<Icon type="left"/>}
+                onLeftClick ={()=>{
+                  console.log(this.props);
+                  this.props.history.goBack();
+                }}
+        >{`与${users[userid].name}聊天中`}</NavBar>
+
+        {/* <StickFooter> */}
+        <div  className='page-content'>
+        {chatmsgs.map(v=>{
+            const avatar = require('../logo/logo.jpg')
             // 判断是对方
-            return v.from == user?
-            <Item>对方:{v.content}</Item>:
-            <Item
-              extra="avatar"
-            ><ItemRight>我:{v.content}</ItemRight></Item>
-          })} */}
+            return v.from == userid?(
+            <List><Item thumb={avatar}>{v.content}</Item></List>) :(
+            <List><Item className='chat-me' extra={<img src={avatar}/>}><ItemRight>{v.content}</ItemRight></Item></List>)
+          })}
+        </div>
+
+          <div  className="stick-footer">
           <List>
             <InputItem  placeholder='请输入'
                         value={this.state.text.toString()}
                         onChange={(v)=>{
                           this.setState({text:v})
                         }}
-                        extra={<span onClick={()=>this.handleSubmit()}>发送</span>}>信息
-                        ></InputItem>
+                        extra={
+                          <div>
+                            <span style={{marginRight:15}} onClick={()=>{
+                                  this.setState({
+                                    shouldEmoj: !this.state.shouldEmoj
+                                  })
+                                  this.fixCarousel()
+                            }}>表情</span>
+                            <span onClick={()=>this.handleSubmit()}>发送</span>
+                          </div>}></InputItem>
+            {this.state.shouldEmoj?(<Grid data={emoj}
+                  columnNum={6}
+                  carouselMaxRow={1}
+                  isCarousel={true}
+            ></Grid>):null}
           </List>
-        </StickFooter>
+          </div>
+        {/* </StickFooter> */}
       </div>
     )
   }

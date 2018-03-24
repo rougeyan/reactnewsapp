@@ -3,3 +3,55 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+/* .StickFooter{
+  z-index :10;
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+} */
+
+
+/* 相当于Mfooter */
+.am-tab-var{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+.fixheader{
+  z-index: 11;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.page-content{
+  padding: 45px 5px 60px 5px;
+}
+.page-content2{
+  padding: 45px 5px 55px 5px;
+}
+
+
+#chat-page .chat-me .am-list-extra{
+  flex-basis: auto;
+}
+
+#chat-page .chat-me .am-list-content{
+  padding-right: 15px;
+  text-align: right;
+}
+#chat-page .am-navbar{
+  z-index: 11;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.stick-footer{
+  z-index: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%
+}

@@ -16,7 +16,7 @@ class UserCard extends React.Component{
     const Header = Card.Header;
     const Body = Card.Body;
     return (
-      <WingBlank>
+      <WingBlank className='page-content2'>
         <WhiteSpace></WhiteSpace>
         {this.props.userlist.map(v=>(v.avatar?
           <Card 
