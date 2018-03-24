@@ -58,6 +58,9 @@ class Login extends React.Component {
           <Button type='primary' onClick={this.handleLogin}>登陆</Button>
           <WhiteSpace></WhiteSpace>
           <Button onClick={this.register} type='primary'>注册</Button>
+          <p>欢迎试玩</p>
+          <p>帐号:zhazha1,密码:123</p>
+          <p>帐号:boss1,密码:123</p>
         </WingBlank>
       </div>
     )
