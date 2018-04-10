@@ -28,7 +28,11 @@ export function chat(state=initState,action){
       return {...state,
               chatmsg:[...state.chatmsg,action.payload],
               unread:state.unread+1}
-    // case MSG_READ:
+    case MSG_READ:
+      return {...state,chatmsg: state.chatmsg.map(v=>{
+        v.read =true;
+        return v
+      }),unread:state.unread-action.payload.num}
     default:
       return state
   }
@@ -40,6 +44,21 @@ function msgList(msgs,users,userid){
 function msgRecv(msg,userid){
   //这里payload 是一个规范;但是可以直接加上去
   return {type: 'MSG_RECV',payload:msg, userid}
+}
+function msgRead({from,userid,num}){
+  return {type: 'MSG_READ',payload:{from,userid,num}}
+}
+// 同步修改状态
+export function readMsg(from){
+  return (dispatch,getState)=>{
+    axios.post('/user/readmsg',{from})
+      .then(res=>{
+        const userid = getState().user._id;
+        if(res.status ==200 && res.data.code == 0){
+          dispatch(msgRead({userid, from, num:res.data.num}))
+        }
+      })
+  }
 }
 
 export function recvMsg(){
@@ -60,7 +79,6 @@ export function getMsgList(){
         if(res.status === 200 && res.data.code === 0){
           // getState 必须要执行才能return这个state;
           const userid = getState().user._id
-          console.log(userid);
           dispatch(msgList(res.data.msgs,res.data.users,userid))
         }
       })

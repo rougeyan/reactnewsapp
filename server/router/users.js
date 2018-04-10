@@ -86,7 +86,7 @@ router.post('/regiseter', function(req, res, next) {
     })
     // 存储这个用户并且给它返回cookies
     // 因为这个_id是注册了才有
-    // 不用create 改用save, 因为create 不能返回_
+    // 不用create 改用save, 因为create 不能返回_id
     // save 是获取的
     userModel.save(function(e,d){
       if (e){
@@ -164,6 +164,29 @@ router.get('/list', function(req, res, next) {
     });
   })
 });
+router.post('/readmsg',function(req,res){
+  const userid = req.cookies.userid;
+  const {from} = req.body;
+  // 默认只找到第一条, 第三个参数就是确定是否所有数据量
+  Chat.update(
+    {from,to:userid},
+    {'$set':{read:true}},
+    {'multi':true},
+    function(err,doc){
+    console.log(doc)
+    // {n:1,nModified:0,ok:1} n:数据量, nM: 修改了几行? ok:1 成功
+    if(!err){
+      return res.json({
+        code:0,
+        num:doc.nModified
+      })
+    }
+    return res.json({
+      code: 1,
+      msg: '修改失败'
+    })
+  })
+})
 
 router.post('/update',function(req,res,next){
   const userid = req.cookies.userid;
@@ -195,14 +218,15 @@ router.get('/getmsglist',function(req,res,next){
   // User 表中 这里先获取所有人的信息;
   User.find({},function(e,userdoc){
     var users = {}
-    // 遍历 
-    // 得到所有人的资料放到一个数组里面
+    // 得到所有人的资料去遍历
+    // Array.foreach
     userdoc.forEach(function(v){
       users[v._id] = {
         name:v.user,
-        avatar: v.avatar
-      }
+        avatar: v.avatar}
     })
+    
+    // 我发出的信息和我收到的信心都查出来
     Chat.find({'$or':[{from:user},{to:user}]},function(err,doc){
       if(err){
         return res.json({
@@ -217,9 +241,8 @@ router.get('/getmsglist',function(req,res,next){
         users:users
       })
     })
+
   })
-
-
 })
 
 module.exports = router;

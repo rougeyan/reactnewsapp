@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom'
 import Boss from '../boss/boss'
 import Genius from '../genius/genius'
 import User from '../user/user'
+import Msg from '../../conpoments/msg/msg'
 
 import { NavBar } from 'antd-mobile';
 import NavLinkBar  from '../../conpoments/navlinkbar/navlinkbar'
@@ -17,9 +18,6 @@ const  Mheader = styled.div`
   top: 0;
   width: 100%;
 `
-function Msg(){
-  return <h3>Msg,here</h3>
-}
 function Me(){
   return <h3>,here</h3>
 }
@@ -27,7 +25,7 @@ function Me(){
 
 @connect( 
   state => state,
-  { getMsgList, recvMsg }
+  { getMsgList, recvMsg}
 )
 
 class Dashboard extends React.Component{
@@ -40,6 +38,7 @@ class Dashboard extends React.Component{
       this.props.getMsgList();
       this.props.recvMsg();
     }
+
   }
   render(){
     const pathname = this.props.location.pathname

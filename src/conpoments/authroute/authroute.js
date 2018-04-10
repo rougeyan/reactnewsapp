@@ -27,7 +27,7 @@ import { loadData } from '../../redux/user.redux'
 class AuthRoute extends React.Component {
   componentDidMount(){
     // 测试 apiManage.testget()
-    console.log(this.props.history)
+    // console.log(this.props.history)
     // 这里就是判断是否登录页或者注册页 就不会管? 
     // 判断来源 如果找到则返回 不会重新跳转?
     const publicList = ['/login','/register']

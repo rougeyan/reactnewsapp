@@ -10,6 +10,8 @@ import  LowHOC  from '../../conpoments/HOC/hoc'
 import { connect } from 'react-redux'
 import { regisger } from '../../redux/user.redux'
 
+import browserCookies from 'browser-cookies'
+
 @connect(
   state => state.user, 
   { regisger }
@@ -26,6 +28,9 @@ class Register extends React.Component {
     // }
   }
   componentDidMount(){
+    // 自动清除cookies;
+    browserCookies.erase('userid');
+    
     //对一些默认值的设置
     this.props.handleChange('type','genius')
   }

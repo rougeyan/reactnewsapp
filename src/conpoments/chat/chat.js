@@ -3,13 +3,13 @@ import io from 'socket.io-client'
 import { List, InputItem, NavBar, Icon, Grid, WhiteSpace} from 'antd-mobile'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { getMsgList, sendMsg, recvMsg} from '../../redux/chat.redux';
+import { getMsgList, sendMsg, recvMsg, readMsg} from '../../redux/chat.redux';
 import { getChatId } from '../../util'
 
 const socket = io('ws://localhost:3000');
 @connect(
   state =>state,
-  { getMsgList, sendMsg, recvMsg}  
+  { getMsgList, sendMsg, recvMsg, readMsg}  
 )
 class Chat extends React.Component{
   constructor(props){
@@ -21,7 +21,7 @@ class Chat extends React.Component{
   }
   handleSubmit(){
     
-    const from = this.props.user._id; //状态中登陆的user._id
+    const from = this.props.user._id;
     // 定义的时候在index中
     //<Route path='/chat/:user' component={Chat}></Route>
     // this.props.history.push(`/chat/${v._id}`) 这个点击时候获取的对象的._id
@@ -56,14 +56,19 @@ class Chat extends React.Component{
     // })
     // 判断 这个状态chatmsg的长度 才去获取;
     if(!this.props.chat.chatmsg.length){
-      console.log(this.props);
       this.props.recvMsg();
       this.props.getMsgList();
     }
     // 修正错位
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'))
-    }, 0);
+    this.fixCarousel();
+  }
+
+  // 未读消息控制: 路由钩子:退出路由的时候执行 就是清除当前所有未读信息;
+  componentWillUnmount(){
+    //标记已读信息;
+    // 去想的信息;
+    const to = this.props.match.params.user;
+    this.props.readMsg(to);
   }
   fixCarousel(){
     setTimeout(() => {
@@ -86,6 +91,7 @@ class Chat extends React.Component{
     const users = this.props.chat.users;
     // 当前拼接的
     const chatidd = getChatId(userid, this.props.user._id)
+    console.log(typeof chatidd);
     // 状态中拿到的
     const chatmsgs = this.props.chat.chatmsg.filter(v=>v.chatid == chatidd)
     // console.log(chatmsgs);
@@ -116,8 +122,8 @@ class Chat extends React.Component{
             const avatar = require('../logo/logo.jpg')
             // 判断是对方
             return v.from == userid 
-            ? (<List><Item thumb={avatar}>{v.content}</Item></List>) 
-            : (<List><Item className='chat-me' extra={<img src={avatar}/>}><ItemRight>{v.content}</ItemRight></Item></List>)
+            ? (<List key={v.content + Math.random()}><Item thumb={avatar}>{v.content}</Item></List>) 
+            : (<List key={v.content + Math.random()}><Item className='chat-me' extra={<img src={avatar}/>}><ItemRight>{v.content}</ItemRight></Item></List>)
           })}
         </div>
 
