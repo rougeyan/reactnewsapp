@@ -90,7 +90,8 @@ export function regisger({user,pwd,repeatpwd,type}){
       .then(res=>{
         if(res.status === 200 && res.data.code === 0){
             // 传入 {param.user,params.pwd,params.type}
-          dispatch(authSuccess({user,pwd,type}))
+            // 首次登陆状态中没有_id的值
+          dispatch(authSuccess({user,pwd,type,_id:res.data.data._id}))
         }else{
           dispatch(errorMsg(res.data.msg))
         }

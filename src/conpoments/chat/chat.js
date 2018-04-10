@@ -54,6 +54,7 @@ class Chat extends React.Component{
     //     msg:[...this.state.msglist, data.text]
     //   })
     // })
+    // 判断 这个状态chatmsg的长度 才去获取;
     if(!this.props.chat.chatmsg.length){
       console.log(this.props);
       this.props.recvMsg();

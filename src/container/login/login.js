@@ -7,6 +7,8 @@ import { Redirect }from 'react-router-dom'
 import { login } from '../../redux/user.redux'
 import  LowHOC  from '../../conpoments/HOC/hoc'
 
+import browserCookies from 'browser-cookies'
+
 @connect(
   state => state.user,
   { login }
@@ -22,6 +24,9 @@ class Login extends React.Component {
     this.register = this.register.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.goexplain =this.goexplain.bind(this);
+  }
+  componentDidMount(){
+    browserCookies.erase('userid');
   }
   // 跳转到注册页面 路由组件
   register(){

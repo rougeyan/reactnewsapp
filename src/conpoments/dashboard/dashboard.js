@@ -34,9 +34,11 @@ class Dashboard extends React.Component{
   componentDidMount(){
     // 进入dashboard 就获取列表信息
     // 以及开始监听 接受的信息
+    // bug: 初次进入就会有三个的bug? 触发三次recvvMsg()
+    // 而且yan发了 boss没有反映;
     if(!this.props.chat.chatmsg.length){
-      this.props.recvMsg();
       this.props.getMsgList();
+      this.props.recvMsg();
     }
   }
   render(){

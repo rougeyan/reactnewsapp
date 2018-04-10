@@ -11,7 +11,7 @@ export function gerRedirectPath({type,avatar}){
   }
   return url
 }
-
+// 获取聊天的记录id 统一起来;
 export function getChatId(userId,targetId){
   return [userId,targetId].sort().join('_');
 }

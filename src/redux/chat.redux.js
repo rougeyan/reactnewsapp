@@ -21,7 +21,7 @@ export function chat(state=initState,action){
       return {...state, 
               chatmsg:action.payload.msgs,
               // 发送的目标必须是当前的用户;
-              unread:action.payload.msgs.filter(v=>!v.read&&v.to ===action.payload.userid).length,
+              unread:action.payload.msgs.filter(v=>!v.read && v.to ===action.payload.userid).length,
               users:action.payload.users}
     case MSG_RECV:
         const  n = action.payload.to == action.userid ? 1 : 0
@@ -43,6 +43,7 @@ function msgRecv(msg,userid){
 }
 
 export function recvMsg(){
+  // 第二个参数getState 能够获取应用的所有状态;
   return (dispatch,getState)=>{
     //监听 on
     socket.on('recvmsg',function(data){
