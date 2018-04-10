@@ -78,7 +78,7 @@ class Dashboard extends React.Component{
       title: '个人中心',
       component: User
     }]
-    // find() 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined。
+    // find 方法返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined。
     const NavItem = navList.find(v=>v.path === pathname);
     return (
       <div>

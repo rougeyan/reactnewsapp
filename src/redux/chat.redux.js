@@ -29,10 +29,13 @@ export function chat(state=initState,action){
               chatmsg:[...state.chatmsg,action.payload],
               unread:state.unread+1}
     case MSG_READ:
+    const{from,num} = action.payload;
       return {...state,chatmsg: state.chatmsg.map(v=>{
-        v.read =true;
+        if(from == v.from){
+          v.read =true;  
+        }
         return v
-      }),unread:state.unread-action.payload.num}
+      }),unread:state.unread-num}
     default:
       return state
   }
