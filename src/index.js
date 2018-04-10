@@ -13,6 +13,7 @@ import BossInfo from './container/bossinfo/bossinfo'
 import GeniusInfo from './container/geniusinfo/geniusinfo'
 import Dashboard from './conpoments/dashboard/dashboard'
 import Chat from './conpoments/chat/chat'
+import Explain from './container/explain/explain'
 
 import reducers from './reducer'
 // 全局reducer
@@ -41,6 +42,7 @@ ReactDOM.render(
             <Route path='/geniusinfo' component={GeniusInfo}></Route>
             <Route path='/bossinfo' component={BossInfo}></Route>
             <Route path='/chat/:user' component={Chat}></Route>
+            <Route path='/explain' component={Explain}/>
             {/* //只要不指定这个 path 所有都会命中这个东西 */}
             <Route component={Dashboard}></Route>
           </Switch>

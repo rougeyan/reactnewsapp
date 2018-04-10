@@ -4,7 +4,6 @@ import {List, InputItem, WingBlank, WhiteSpace, Button} from 'antd-mobile'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Redirect }from 'react-router-dom'
-
 import { login } from '../../redux/user.redux'
 import  LowHOC  from '../../conpoments/HOC/hoc'
 
@@ -22,6 +21,7 @@ class Login extends React.Component {
     // }
     this.register = this.register.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.goexplain =this.goexplain.bind(this);
   }
   // 跳转到注册页面 路由组件
   register(){
@@ -38,6 +38,9 @@ class Login extends React.Component {
   //     [key]: val
   //   })
   // }
+  goexplain(){
+    this.props.history.push('/explain')
+  }
   render(){
     const LoginText = styled.h3`
       text-align:center;
@@ -58,9 +61,8 @@ class Login extends React.Component {
           <Button type='primary' onClick={this.handleLogin}>登陆</Button>
           <WhiteSpace></WhiteSpace>
           <Button onClick={this.register} type='primary'>注册</Button>
-          <p>欢迎试玩</p>
-          <p>帐号:zhazha1,密码:123</p>
-          <p>帐号:boss1,密码:123</p>
+          <WhiteSpace></WhiteSpace>
+          <Button onClick={this.goexplain} type='primary'>使用说明</Button>
         </WingBlank>
       </div>
     )

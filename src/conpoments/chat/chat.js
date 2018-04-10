@@ -87,7 +87,7 @@ class Chat extends React.Component{
     const chatidd = getChatId(userid, this.props.user._id)
     // 状态中拿到的
     const chatmsgs = this.props.chat.chatmsg.filter(v=>v.chatid == chatidd)
-    console.log(chatmsgs);
+    // console.log(chatmsgs);
     // 从状态中找, 找不到不渲染
     if(!users[userid]){
       return null;
@@ -100,7 +100,7 @@ class Chat extends React.Component{
     
     return(
       <div id='chat-page'>
-        <NavBar class='Navb'
+        <NavBar className='Navb'
                 mode='dark'
                 icon={<Icon type="left"/>}
                 onLeftClick ={()=>{
@@ -114,9 +114,9 @@ class Chat extends React.Component{
         {chatmsgs.map(v=>{
             const avatar = require('../logo/logo.jpg')
             // 判断是对方
-            return v.from == userid?(
-            <List><Item thumb={avatar}>{v.content}</Item></List>) :(
-            <List><Item className='chat-me' extra={<img src={avatar}/>}><ItemRight>{v.content}</ItemRight></Item></List>)
+            return v.from == userid 
+            ? (<List><Item thumb={avatar}>{v.content}</Item></List>) 
+            : (<List><Item className='chat-me' extra={<img src={avatar}/>}><ItemRight>{v.content}</ItemRight></Item></List>)
           })}
         </div>
 

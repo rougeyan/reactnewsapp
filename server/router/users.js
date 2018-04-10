@@ -9,6 +9,7 @@ const User = model.getModel('user')
 
 const Chat = model.getModel('chat')
 
+// const LOCAL_DB_URL = 'mongodb://95.163.195.208:27017/react'
 const DB_URL = 'mongodb://localhost:27017/react'
 
 mongoose.connect(DB_URL);
